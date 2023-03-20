@@ -33,10 +33,13 @@ def expires(props):
     expires = props["expires"]
     pp.pprint(expires)
 
+i = 0
+
 print("BELOW ARE THE AFFECTED SC COUNTIES FOR SEVERE WEATHER AND ALL ALERT DETAILS")
 for feature in output_features:
     properties = feature["properties"]
-    print("***********************************ALERT***********************************")
+    print(f"ALERT #{i}")
+    i += 1
     counties_affected(properties)
     event(properties)
     severity(properties)
