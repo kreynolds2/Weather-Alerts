@@ -13,10 +13,6 @@ output_features = output["features"]
 first_feature = output_features[0]
 first_properties = first_feature["properties"]
 
-def id(props):
-    id = props["id"]
-    pp.pprint(id)
-
 def counties_affected(props):
     area_desc = props["areaDesc"]
     pp.pprint(area_desc)
