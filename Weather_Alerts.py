@@ -3,33 +3,46 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-state = input("Choose a state to check for severe weather! ").upper()
+state = input("Choose a state! ").upper()
 
-first_properties = requests.get(f"https://api.weather.gov/alerts/active/area/{state}").json()["features"][0]["properties"]
+response = requests.get(f"https://api.weather.gov/alerts/active/area/{state}")
 
-def counties_affected():
-    area_desc = first_properties["areaDesc"]
+response.json()
+output = response.json()
+output_features = output["features"]
+first_feature = output_features[0]
+first_properties = first_feature["properties"]
+
+def id(props):
+    id = props["id"]
+    pp.pprint(id)
+
+def counties_affected(props):
+    area_desc = props["areaDesc"]
     pp.pprint(area_desc)
 
-def event():
-    event = first_properties["event"]
+def event(props):
+    event = props["event"]
     pp.pprint(event)
 
-def severity():
-    severity = first_properties["severity"]
+def severity(props):
+    severity = props["severity"]
     pp.pprint(severity)
 
-def onset():
-    onset = first_properties["onset"]
+def onset(props):
+    onset = props["onset"]
     pp.pprint(onset)
 
-def expires():
-    expires = first_properties["expires"]
+def expires(props):
+    expires = props["expires"]
     pp.pprint(expires)
 
-print("BELOW ARE THE AFFECTED SC COUNTIES FOR SEVERE WEATHER AND ALERT DETAILS")
-counties_affected()
-event()
-severity()
-onset()
-expires()
+print("BELOW ARE THE AFFECTED SC COUNTIES FOR SEVERE WEATHER AND ALL ALERT DETAILS")
+for feature in output_features:
+    properties = feature["properties"]
+    print("***********************************ALERT***********************************")
+    counties_affected(properties)
+    event(properties)
+    severity(properties)
+    onset(properties)
+    expires(properties)
